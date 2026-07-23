@@ -10,9 +10,30 @@ class Agent:
         self.current_result = None
         self.status = "Ready"
 
+    def startup(self):
+        """Display the AI Agent startup banner."""
+
+        print("=" * 60)
+        print("                 AI AGENT BUILD 0.1")
+        print("=" * 60)
+        print("              AI Agent Startup Sequence")
+        print("-" * 60)
+        print()
+        print(f"Status : {self.status}")
+        print("Version: 0.1")
+        print()
+
+    def print_header(self, title):
+        """Print a formatted section header."""
+
+        print("\n" + "=" * 60)
+        print(title)
+        print("=" * 60)
+
     def run(self):
         """Run the complete agent workflow."""
 
+        self.startup()
         self.receive_task()
         self.understand_task()
         self.validate_rules()
@@ -27,7 +48,7 @@ class Agent:
         """Receive a task for the agent."""
 
         self.current_task = input("Enter a task: ")
-        print(f"\nTask received: {self.current_task}")
+        print(f"\nTask Received: {self.current_task}")
 
     def understand_task(self):
         """Understand the received task."""
@@ -44,45 +65,44 @@ class Agent:
         }
 
         # Display the agent's understanding
-        print("\n===== Task Understanding =====")
+        self.print_header("Task Understanding")
         print(f"Task: {self.task_understanding['task']}")
         print(f"Task Type: {self.task_understanding['task_type']}")
         print(f"Goal: {self.task_understanding['goal']}")
         print(f"Desired Outcome: {self.task_understanding['desired_outcome']}")
-        print("==============================")
 
     def validate_rules(self):
         """Validate the task against the agent's rules."""
 
-        print("\n===== Validate Rules =====")
+        self.print_header("Validate Rules")
         print("Rule validation is not implemented yet.")
 
     def create_plan(self):
         """Create a plan for completing the task."""
 
-        print("\n===== Create Plan =====")
+        self.print_header("Create Plan")
         print("Planning stage is not implemented yet.")
 
     def execute_plan(self):
         """Execute the current plan."""
 
-        print("\n===== Execute Plan =====")
+        self.print_header("Execute Plan")
         print("Execution stage is not implemented yet.")
 
     def review_result(self):
         """Review the result of the completed task."""
 
-        print("\n===== Review Result =====")
+        self.print_header("Review Result")
         print("Review stage is not implemented yet.")
 
     def record_metrics(self):
         """Record metrics about the completed task."""
 
-        print("\n===== Record Metrics =====")
+        self.print_header("Record Metrics")
         print("Metrics stage is not implemented yet.")
 
     def respond(self):
         """Return the final response."""
 
-        print("\n===== Respond =====")
+        self.print_header("Respond")
         print("Response stage is not implemented yet.")
