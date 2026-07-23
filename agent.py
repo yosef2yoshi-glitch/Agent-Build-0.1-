@@ -53,12 +53,14 @@ class Agent:
     def understand_task(self):
         """Understand the received task."""
 
-        # Convert the task to lowercase for easier keyword matching
+        # Convert the task to lowercase for future keyword matching
         task = self.current_task.lower()
 
         # Create the agent's understanding of the task
         self.task_understanding = {
             "task": self.current_task,
+            "action": "Unknown",
+            "object": "Unknown",
             "task_type": "Unknown",
             "goal": "Unknown",
             "desired_outcome": "Unknown"
@@ -66,7 +68,10 @@ class Agent:
 
         # Display the agent's understanding
         self.print_header("Task Understanding")
+
         print(f"Task: {self.task_understanding['task']}")
+        print(f"Action: {self.task_understanding['action']}")
+        print(f"Object: {self.task_understanding['object']}")
         print(f"Task Type: {self.task_understanding['task_type']}")
         print(f"Goal: {self.task_understanding['goal']}")
         print(f"Desired Outcome: {self.task_understanding['desired_outcome']}")
