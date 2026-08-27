@@ -17,7 +17,7 @@
 * Role & Boundaries
 
 # Role:
-What thins agent is responsible for.
+What this agent is responsible for.
 
 # Non-Responsibilities:
 What this agent must never attempt.

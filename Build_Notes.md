@@ -19,7 +19,7 @@ what is the right level of Autonomy for your agent?
 
 ## Build Questions You Need to Ask Before Building?
 
-* What workflow will flow theough this agent? 
+* What workflow will flow through this agent? 
 * What is the review step? & how often will it happen? 
 * What is the baseline before the agent launches?
 * What will you do when the agent makes it's first mistake? 
