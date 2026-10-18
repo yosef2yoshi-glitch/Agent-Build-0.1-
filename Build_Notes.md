@@ -2,46 +2,48 @@
 
 ## What Do You Want To Build
 
-what is the right level of Autonomy for your agent? 
+what is the right level of Autonomy for your agent?
+
 * Level 2
-* I think I should start at level 2, this level will have the agent dialed in on workflow automation.
 
-## Common Mistakes 
+* I think I should start at level 2; this level will have the agent dialed in on workflow automation.
 
-* Treating a level 2 agent like it is level 4 agent giving the agent decision authority it was not design for.
-* Unclear workflow design. 
+## Common Mistakes
+
+* Treating a level 2 agent like it is a level 4 agent, giving the agent decision authority it was not designed for.
+* Unclear workflow design.
 * No human review rule.
 
 ## Building Tips
 
-* Write the choice making rules before you start building 
-* Choose what the system handles and what a human handles 
+* Write the choice-making rules before you start building.
+* Choose what the system handles and what a human handles.
 
 ## Build Questions You Need to Ask Before Building?
 
-* What workflow will flow through this agent? 
-* What is the review step? & how often will it happen? 
+* What workflow will flow through this agent?
+* What is the review step, and how often will it happen?
 * What is the baseline before the agent launches?
-* What will you do when the agent makes it's first mistake? 
+* What will you do when the agent makes its first mistake?
 
 ## Goal
 
-* Match the agent to the job
-* Digtal Operations Manager
-* I want this AI Agent to to be a security assisant, brand assistant, Buisness assistant 
+* Match the agent to the job.
+* Digital Operations Manager.
+* I want this AI agent to be a security assistant, brand assistant, and business assistant.
 
-## What is a LLM? 
+## What is a LLM?
 
-* An LLM stands for Large Language Model 
+* An LLM stands for Large Language Model.
 * The LLM understands requests, reasons about them, and decides what should happen next. It generates instructions or responses, but another program (our Python controller) performs the actual work.
 
-## What is a AI Agent? 
+## What is an AI Agent?
 
 * An AI agent is a software program that uses an AI model to understand requests, reason about them, use tools to perform actions, evaluate the results, and continue working until it achieves its goal.
 
-## What is a WorkFlow? 
+## What is a Workflow?
 
-* A Workflow is a sequence of steps that are performed in specific steps in order to accomplish a goal.
+* A workflow is a sequence of steps performed in a specific order to accomplish a goal.
 
 Receive Input
       ↓

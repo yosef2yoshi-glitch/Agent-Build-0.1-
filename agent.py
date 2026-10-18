@@ -276,10 +276,22 @@ class Agent:
             print("Approval granted.")
             return True
 
+
         self.approval_granted = False
+
+        self.current_result = {
+            "task": self.current_task,
+            "action": self.task_understanding.get("action", "Unknown"),
+            "object": self.task_understanding.get("object", "Unknown"),
+            "status": "Denied",
+            "executed": False,
+            "reason": "Human approval was denied.",
+        }
+
         print("Approval denied.")
         print("Execution stopped.")
         return False
+
 
     def execute_plan(self):
         """Execute the current plan and store the result."""
@@ -342,24 +354,38 @@ class Agent:
 
         return metrics
 
-    def respond(self):
-        """Return the final response."""
 
-        self.print_header("Respond")
+def respond(self):
+    """Return the final response."""
 
-        if self.validation_result in {"Invalid", "Needs Clarification"}:
-            message = (
-                f"Task could not be completed because the request needs more detail. "
-                f"Current status: {self.validation_result}"
-            )
-        elif self.current_result:
-            message = (
-                f"Task completed: {self.current_task}. "
-                f"Status: {self.current_result.get('status', 'Unknown')}. "
-                f"Plan steps: {len(self.current_plan)}."
-            )
-        else:
-            message = f"Task completed: {self.current_task}"
+    self.print_header("Respond")
 
-        print(message)
-        return message
+    if self.validation_result in {"Invalid", "Needs Clarification"}:
+        message = (
+            "Task could not be completed because the request needs more detail. "
+            f"Current status: {self.validation_result}"
+        )
+
+    elif self.current_result and self.current_result.get("status") == "Denied":
+        message = (
+            f"Task denied: {self.current_task}. "
+            "Execution did not occur because approval was denied."
+        )
+
+    elif self.current_result:
+        message = (
+            f"Task result: {self.current_task}. "
+            f"Status: {self.current_result.get('status', 'Unknown')}. "
+            f"Plan steps: {len(self.current_plan)}."
+        )
+
+    else:
+        message = (
+            f"Task not completed: {self.current_task}. "
+            "No execution result is available."
+        )
+
+    print(message)
+    return message
+
+    
