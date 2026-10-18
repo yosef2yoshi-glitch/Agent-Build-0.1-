@@ -607,6 +607,7 @@ The agent should gather information, analyze context, create plans, prepare draf
 
 ### Intended Capabilities
 
+```text
 The agent should eventually be able to connect to approved business information sources such as:
 
 Live business data
@@ -620,44 +621,45 @@ Order history
 Policy documents
 
 Existing drafts and business documentation
+```
 
 ### The agent should use this information to:
 
-Retrieve relevant information
+* Retrieve relevant information
 
-Analyze business context
+* Analyze business context
 
-Triage requests
+* Triage requests
 
-Qualify leads
+* Qualify leads
 
-Prepare meeting briefs
+* Prepare meeting briefs
 
-Prepare drafts
+* Prepare drafts
 
-Recommend next steps
+* Recommend next steps
 
-Prepare proposed actions for human approval
+* Prepare proposed actions for human approval
 
-Primary Use Cases
+* Primary Use Cases
 
-Customer support triage
+* Customer support triage
 
-Lead qualification
+* Lead qualification
 
-Meeting preparation
+* Meeting preparation
 
-Research and information gathering
+* Research and information gathering
 
-Drafting responses
+* Drafting responses
 
-Preparing recommendations
+* Preparing recommendations
 
 ### Level 3 Boundaries
 
 The agent is not intended to operate as a fully autonomous system.
 
-The agent must NOT:
+#### The agent must NOT:
 
 Make final decisions autonomously.
 
@@ -673,10 +675,10 @@ Continue execution after required approval has been denied.
 
 Manage long-running autonomous goals that unfold over days or weeks.
 
-2. Agent Workflow
+#### 2. Agent Workflow
 
 The original workflow was expanded to support the Level 3 design:
-
+```text
 Receive Task
      ↓
 Understand Task
@@ -700,8 +702,8 @@ Review Result
 Record Metrics
      ↓
 Respond
-
-3. Current Python Architecture
+```
+#### 3. Current Python Architecture
 
 The Agent class currently contains:
 ```python
@@ -725,69 +727,70 @@ self.validation_result
 self.approval_required
 self.status
 ```
-4. Task Understanding Layer
+#### 4. Task Understanding Layer
 
-Previous Behavior
+#### Previous Behavior
 
 The agent originally returned mostly unknown values after receiving a task.
 
 Example:
-
+```text
 Task: check email
 Action: Unknown
 Object: Unknown
 Task Type: Unknown
 Goal: Unknown
 Desired Outcome: Unknown
+```
 
-Change Made
+***Change Made***
 
-understand_task() was expanded to perform basic keyword-based task analysis.
+**understand_task() was expanded to perform basic keyword-based task analysis.**
 
 The agent currently attempts to identify:
 
-Action
+* Action
 
-Object
+* Object
 
-Task Type
+* Task Type
 
-Goal
+* Goal
 
-Desired Outcome
+* Desired Outcome
 
-Supported Actions
-
+***Supported Actions***
+```
 check
 create
 delete
 update
 find
 get
-
-Supported Objects
-
+```
+***Supported Objects***
+```
 email
 computer
 user
 file
-
-Test Performed
+```
+***Test Performed***
 
 Input:
 
-computer
+* computer
 
 Result:
-
+```
 Task: computer
 Action: Unknown
 Object: Computer
 Task Type: Information
 Goal: Gather computer information
 Desired Outcome: Return computer information
-
-Result Analysis
+```
+***Result Analysis***
 
 The task-understanding layer successfully identified the object, task type, goal, and desired outcome.
 
@@ -820,7 +823,7 @@ The agent should eventually be able to recognize ambiguity instead of blindly as
 validate_rules() was implemented as the first real control layer.
 
 The validation system currently checks four rules.
-
+```text
 R001 — Task Required
 
 The agent must receive a task.
@@ -838,7 +841,7 @@ If the object is unknown, validation returns:
 Needs Clarification
 
 R004 — Safety Check
-
+```
 Potentially destructive actions require human approval.
 
 Currently, the Delete action triggers:
