@@ -1052,11 +1052,13 @@ The agent successfully converted the validated task into an ordered plan:
 AI Agent Build 0.1 is an early-stage Python agent designed around a clear task-handling lifecycle. The current goal is to build a dependable foundation for a future personal Chief of Staff agent, with safety controls established before adding real-world capabilities.
 At this stage, task handling and execution are primarily simulated. The agent does not have unrestricted computer access or a live Microsoft 365 connection.
 
-**Current Architecture**
+### Current Architecture
+
 - main.py — Creates the Agent instance and starts the workflow.
 - agent.py — Defines the Agent class and its task lifecycle.
 
-**The current workflow is:**
+### The current workflow is
+
 1. Receive a task.
 2. Understand the task by detecting an action and object.
 3. Validate the request against basic rules.
@@ -1068,7 +1070,8 @@ At this stage, task handling and execution are primarily simulated. The agent do
 9. Record metrics.
 10. Respond to the user.
 
-**Current Capabilities**
+### Current Capabilities
+
 - Startup banner and status display.
 - Basic task action detection, including Delete, Create, Update, Check, Find, and Get.
 - Basic object detection, including Email, Computer, User, and File.
@@ -1080,7 +1083,7 @@ At this stage, task handling and execution are primarily simulated. The agent do
 - An execution-boundary check that blocks execution when approval is required but has not been granted.
 - Basic result review and console-based metrics.
 
-**Safety Controls Implemented**
+### Safety Controls Implemented
 
 1. Approval denial is recorded
 When a task requiring approval is denied, request_approval() records a result with:
@@ -1102,16 +1105,17 @@ If approval is required and has not been granted, the method records a blocked r
 
 This provides a second check beyond the approval check in run().
 
-**Safety Test Evidence**
+### Safety Test Evidence
 
 Direct execution without approval — PASSED
 
 A controlled command created an in-memory Agent instance, assigned a simulated plan, set approval_required = True and approval_granted = False, and called execute_plan() directly.
 
 Observed output:
+
+```text
 Execute Plan
 Execution blocked: required approval was not granted.
-```
 TEST RESULT: {
     'task': 'delete file',
     'status': 'Blocked',
@@ -1119,14 +1123,15 @@ TEST RESULT: {
     'reason': 'Required approval was not granted.'
 }
 ```
+
 This test did not delete or modify any file. It verified that the current simulated execution method rejects a direct call when required approval is missing.
 
-**Normal denial workflow**
+### Normal denial workflow
 
 The interactive denial path has also been exercised: the agent recognized delete file, requested approval, and stopped after the answer no. The result-reporting change was then made so denial can be represented explicitly.
 Before treating the denial workflow as fully verified, rerun it after the latest changes and confirm that the final response says Denied and that the Execute Plan section does not appear.
 
-**Known Limitations and Risks**
+### Known Limitations and Risks
 
 - Execution is still simulated. Printing plan steps is not the same as performing or verifying real work.
 - Action and object detection use simple keyword matching; they can misclassify ambiguous requests.
@@ -1137,7 +1142,7 @@ Before treating the denial workflow as fully verified, rerun it after the latest
 - Metrics are printed to the console and are not persisted.
 - No live computer operations, file deletion, or Microsoft 365 actions should be enabled until the relevant controls and tests are implemented.
 
-**Run the Agent**
+### Run the Agent
 
 From the project directory:
 
@@ -1148,7 +1153,7 @@ The project has also been run using an explicit Python interpreter path, for exa
 `/usr/local/bin/python3 main.py`
 Use the Python interpreter configured for your environment.
 
-**Current Development Priorities**
+### Current Development Priorities
 
 1. Rerun and verify the normal approval-denial workflow after the recent changes.
 2. Test that tasks not requiring approval still follow the expected path.
@@ -1157,7 +1162,7 @@ Use the Python interpreter configured for your environment.
 5. Strengthen result verification so the agent reports completion only when work was actually performed and verified.
 6. Add a controlled read-only tool before introducing file modification or deletion capabilities.
 
-**Development Safety Principles**
+### Development Safety Principles
 
 - Do not delete or modify files without explicit authorization.
 - Do not treat silence, invalid input, or ambiguous approval as permission.
@@ -1166,23 +1171,27 @@ Use the Python interpreter configured for your environment.
 - Explain proposed code changes before making them.
 - Add real capabilities gradually, starting with read-only operations.
 
-**Current Checkpoint**
+### Current Checkpoint
 
 ### Version: 0.1
 
-**Focus:** Safety and execution control
-**Latest verified test**: Direct call to execute_plan() is blocked when approval is required but not granted.
-**Next action:** Rerun the interactive denial workflow and confirm the final response reports Denied without entering execution.
+*Focus:* Safety and execution control
+*Latest verified test:* Direct call to execute_plan() is blocked when approval is required but not granted.
+*Next action:* Rerun the interactive denial workflow and confirm the final response reports Denied without entering execution.
 
 AI Agent Build 0.1 — Development Notes
 Document purpose: Record the current project state, explain the safety test file, and mark exactly where development stopped and what to do next.
 Checkpoint date: 2026-10-18
 Project repository: Agent-Build-0.1-
 Current branch: main
+
 1. Project Goal
+
 AI Agent Build 0.1 is an early Python agent intended to grow into a personal Chief of Staff assistant. The project is being built incrementally, with an emphasis on understanding each component and validating safety behavior before adding capabilities.
 Development rule: Every new file or code change should be explained before moving on. Do not add capabilities, edit code, run consequential actions, or deploy anything without discussing the change first.
-2. Current Project Structure
+
+2.Current Project Structure
+
 The relevant files discussed at this checkpoint are:
 Agent-Build-0.1-/
 ├── agent.py
@@ -1218,13 +1227,17 @@ unittest is part of Python's standard library. It lets us write repeatable check
 The test command used was:
 python3 -m unittest -v test_agent_
 Command breakdown:
+
 - python3: runs Python 3.
+
 - -m: asks Python to run a module.
 - unittest: launches the built-in test framework.
 - -v: verbose output, showing each test name and result.
 - test_agent_: identifies the test_agent_.py module.
+
 Run this command from the project directory. It tests code; it does not commit changes to GitHub.
-4. How test_agent_.py Is Organized
+
+4.How test_agent_.py Is Organized
 Imports
 import unittest
 from unittest.mock import patch
@@ -1326,3 +1339,4 @@ Follow this sequence, one step at a time:
 7. Separately, inspect the latest Git status and carefully resolve the development log filename discrepancy before staging or committing files.
 Resume prompt
 Continue AI Agent Build 0.1 from the 2026-10-18 checkpoint. We ran python3 -m unittest -v test_agent_ and all four tests passed. We reviewed the docstring, imports, TestAgentSafety class, and setUp() method. Continue explaining test_agent_.py line by line, starting with test_denied_approval_records_denied_result(). Do not change code until we have reviewed it and agreed on the next step.
+
