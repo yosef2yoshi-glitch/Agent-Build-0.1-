@@ -1,0 +1,35 @@
+
+# ==========================================
+# AI AGENT BUILD 0.1
+# Git Ignore Configuration
+# ==========================================
+
+# Python virtual environments
+/Agent-Build-0.1/
+.venv/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# VS Code workspace settings
+.vscode/
