@@ -11,6 +11,13 @@ class Agent:
         self.validation_result = None
         self.approval_required = False
         self.approval_granted = False
+
+        # Record exactly what was approved.
+        self.approved_task = None
+        self.approved_action = None
+        self.approved_object = None
+        self.approved_plan = None
+
         self.status = "Ready"
 
     def startup(self):
@@ -161,9 +168,14 @@ class Agent:
 
         self.print_header("Validate Rules")
 
-        # Reset validation state
+        # Reset validation and approval state for the new task.
         self.validation_result = "Valid"
         self.approval_required = False
+        self.approval_granted = False
+        self.approved_task = None
+        self.approved_action = None
+        self.approved_object = None
+        self.approved_plan = None
 
         # Rule R001: A task must exist
         if not self.current_task:
@@ -259,7 +271,7 @@ class Agent:
         self.print_header("Approval Check")
 
         if not self.approval_required:
-            self.approval_granted = True
+            # No human approval is needed; do not record a false approval.
             print("Approval not required.")
             print("Execution may continue.")
             return True
@@ -269,15 +281,27 @@ class Agent:
         print(f"Action: {self.task_understanding['action']}")
         print(f"Object: {self.task_understanding['object']}")
 
-        approval = input("\nApprove this task? (yes/no): ").strip().lower()
+        print("Plan:")
+        for number, step in enumerate(self.current_plan, start=1):
+            print(f"{number}. {step}")
+
+        approval = input("\nApprove this task and plan? (yes/no): ").strip().lower()
 
         if approval == "yes":
             self.approval_granted = True
-            print("Approval granted.")
+            self.approved_task = self.current_task
+            self.approved_action = self.task_understanding["action"]
+            self.approved_object = self.task_understanding["object"]
+            self.approved_plan = tuple(self.current_plan)
+
+            print("Approval granted for this task and plan.")
             return True
 
-
         self.approval_granted = False
+        self.approved_task = None
+        self.approved_action = None
+        self.approved_object = None
+        self.approved_plan = None
 
         self.current_result = {
             "task": self.current_task,
@@ -298,17 +322,36 @@ class Agent:
 
         self.print_header("Execute Plan")
 
-        if self.approval_required and not self.approval_granted:
-            print("Execution blocked: required approval was not granted.")
+        if self.approval_required:
+            current_action = self.task_understanding.get("action", "Unknown")
+            current_object = self.task_understanding.get("object", "Unknown")
+            current_plan = tuple(self.current_plan)
 
-            self.current_result = {
-                "task": self.current_task,
-                "status": "Blocked",
-                "executed": False,
-                "reason": "Required approval was not granted.",
-            }
+            approval_matches = (
+                self.approval_granted
+                and self.approved_task == self.current_task
+                and self.approved_action == current_action
+                and self.approved_object == current_object
+                and self.approved_plan == current_plan
+            )
 
-            return self.current_result
+            if not approval_matches:
+                print(
+                    "Execution blocked: approval is missing or no longer "
+                    "matches the current task and plan."
+                )
+
+                self.current_result = {
+                    "task": self.current_task,
+                    "status": "Blocked",
+                    "executed": False,
+                    "reason": (
+                        "Required approval is missing or does not match "
+                        "the current task and plan."
+                    ),
+                }
+
+                return self.current_result
 
 
         if not self.current_plan:
